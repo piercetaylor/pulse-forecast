@@ -7,8 +7,20 @@ The data come from the [BIDMC dataset](https://physionet.org/content/bidmc/1.0.0
 (Pimentel et al., 2016), under the Open Data Commons Attribution License v1.0.
 Recordings 01–05 train the model, 06 selects the checkpoint, and 07 tests it.
 
-The GRU had 18% lower test RMSE than a ridge baseline on recording 07.
-This result covers one held-out recording and does not establish clinical validity.
+## Model and results
+
+The model has one GRU layer with 32 hidden units and 3,690 parameters.
+Signals are averaged from 125 Hz to 25 Hz before training.
+Training-only normalization scales the validation and test recordings.
+A linear head predicts ten future samples from 50 history samples.
+Adam trains the model for 20 epochs with seed 42.
+Validation selected the checkpoint from epoch 19.
+Training used 5,975 windows; evaluation used 1,195 test windows.
+GRU test MAE was 0.0368 and RMSE was 0.0497 in source PPG units.
+Ridge test RMSE was 0.0606; persistence test RMSE was 0.2367.
+The GRU reduced RMSE by 18.0% versus ridge and 79.0% versus persistence.
+Training, evaluation, and plotting took 27.4 seconds on two CPU threads.
+Results cover one held-out recording and do not establish clinical validity.
 
 ## How to run
 
